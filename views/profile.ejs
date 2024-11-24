@@ -62,16 +62,18 @@
             <p class="text-zinc-300 text-sm mb-4"><%= post.content %></p>
             <footer class="flex items-center justify-between text-sm">
               <div class="flex items-center gap-3">
-                <span class="text-blue-300 font-medium">4 likes</span>
+                <span class="text-blue-300 font-medium">
+                  <%= post.likes.length %> likes</span
+                >
                 <a
                   href="/like/<%= post._id %>"
                   class="text-blue-500 hover:underline"
                 >
-                  Like
+                  <%= post.likes.indexOf(user._id)=== -1 ? 'Like':'Unlike' %>
                 </a>
               </div>
               <a
-                href="#"
+                href="/edit/<%= post._id%>"
                 class="text-zinc-500 hover:text-zinc-400 hover:underline"
               >
                 Edit

@@ -1,4 +1,4 @@
-require("dotenv").config(); // Add this at the top for managing environment variables
+require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
@@ -61,7 +61,7 @@ app.post("/register", async (req, res) => {
                 jwtSecret
             );
             res.cookie("token", token, { httpOnly: true });
-            res.redirect('/')
+            res.redirect('/profile')
         } else {
             return res.status(500).send("Error registering user");
         }
@@ -144,22 +144,62 @@ app.post('/post', isloggedIn, async (req, res) => {
 })
 
 
-
 app.get('/like/:id', isloggedIn, async (req, res) => {
     const post = await postModel.findOne({ _id: req.params.id }).populate('user');
+    /* EXAMPLE
+         {
+            "_id": "603d9f9b5b3e1b25b8d19d85",
+                "content": "This is my first post!",
+                    "user": {
+                "_id": "603d9f5b5b3e1b25b8d19d84",
+                    "username": "john_doe",
+                        "name": "John Doe",
+                            "age": 28,
+                                "email": "john.doe@example.com"
+            },
+            "likes": [
+                {
+                    "_id": "603d9f5b5b3e1b25b8d19d85",
+                    "username": "jane_doe",
+                    "name": "Jane Doe",
+                    "age": 25,
+                    "email": "jane.doe@example.com"
+                },
+                {
+                    "_id": "603d9f5b5b3e1b25b8d19d87",
+                    "username": "alice_smith",
+                    "name": "Alice Smith",
+                    "age": 30,
+                    "email": "alice.smith@example.com"
+                }
+            ]
+        }
+    
+    */
+
 
     if (post.likes.indexOf(req.user.userId) === -1) {
         post.likes.push(req.user.userId)
     }
     else {
-        post.likes.splice(post.likes.indexOf(req.user.userId), 1)
+        post.likes.splice(post.likes.indexOf(req.user.userId), 1) // Removes 1 element at index the found index means user id 
     }
-
 
     await post.save()
     res.redirect('/profile')
 })
 
+
+app.get('/edit/:id', isloggedIn, async (req, res) => {
+    const post = await postModel.findOne({ _id: req.params.id }).populate('user')
+    res.render('edit', { post })
+})
+
+app.post('/update/:id', isloggedIn, async (req, res) => {
+    await postModel.findOneAndUpdate({ _id: req.params.id }, { content: req.body.content })
+    res.redirect('/profile')
+
+})
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
 });
