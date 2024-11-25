@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>File Upload</title>
+  </head>
+  <body class="bg-zinc-900 text-zinc-50 font-sans min-h-screen">
+    <!-- Navbar -->
+    <header class="w-full py-4 px-6 bg-zinc-800 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-lg font-bold tracking-wide text-blue-400">FileShare</h1>
+        <button
+          class="bg-blue-800 px-4 py-2 rounded-md text-sm hover:bg-blue-700"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+      <!-- Welcome Message -->
+      <section class="mb-8">
+        <h2 class="text-3xl font-semibold mb-2 text-zinc-400">Hello 👋</h2>
+        <p class="text-zinc-400 text-sm">You can chage your profile below.</p>
+      </section>
+
+      <!-- File Upload Form -->
+      <section class="bg-zinc-800 p-6 rounded-md shadow-md cursor-pointer">
+        <h3 class="text-lg font-medium text-zinc-200 mb-4">
+          Upload Your Profile Pic
+        </h3>
+        <form
+          autocomplete="off"
+          action="/change/profile"
+          method="post"
+          enctype="multipart/form-data"
+          class="flex flex-col gap-4 cursor-pointer"
+        >
+          <input
+            type="file"
+            name="image"
+            class="w-full text-sm text-zinc-400 border border-zinc-700 bg-zinc-900 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer"
+          />
+          <input
+            type="submit"
+            class="self-end px-6 py-2 bg-blue-600 text-sm font-semibold rounded-md hover:bg-blue-500 cursor-pointer"
+            value="Update Profile"
+          />
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

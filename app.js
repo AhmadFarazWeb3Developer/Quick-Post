@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("./models/user");
 const postModel = require('./models/post')
+const path = require('path')
+const upload = require('./config/multerConfig')
 
 const app = express();
 const jwtSecret = process.env.JWT_SECRET || "MySecretKey";
@@ -14,7 +16,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.get("/profile", isloggedIn, async (req, res) => {
@@ -200,6 +202,24 @@ app.post('/update/:id', isloggedIn, async (req, res) => {
     res.redirect('/profile')
 
 })
+
+
+
+app.get('/upload/profile', (req, res) => {
+    res.render('uploadProfile')
+})
+
+app.post('/change/profile', isloggedIn, upload.single('image'), async (req, res) => {
+
+    const user = await userModel.findOne({ email: req.user.email });
+    user.profilePic = req.file.filename;
+    await user.save()
+    res.redirect('/profile')
+
+})
+
+
+
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
 });

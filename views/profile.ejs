@@ -24,10 +24,26 @@
     <main class="container mx-auto px-6 py-8">
       <!-- Welcome Message -->
       <section class="mb-8">
-        <h2 class="text-3xl font-semibold text-zinc-200 mb-2">
-          Hey, <%= user.name %> 👋🏾
-        </h2>
-        <p class="text-zinc-400 text-sm">Welcome! You can create a post now.</p>
+        <div class="flex items-start gap-3">
+          <a href="/upload/profile">
+            <div
+              class="w-11 h-11 bg-zinc-700 rounded-full overflow-hidden cursor-pointer flex justify-center items-center"
+            >
+              <img
+                class="w-full h-full object-cover rounded-full"
+                src="/images/uploads/<%= user.profilePic %>"
+                alt=""
+              />
+            </div>
+          </a>
+          <h2 class="text-3xl font-semibold text-zinc-200 mb-2">
+            Hey, <%= user.name %> 👋🏾
+          </h2>
+        </div>
+
+        <p class="text-zinc-400 text-sm mt-2">
+          Welcome! You can create a post now.
+        </p>
       </section>
 
       <!-- Create Post Form -->
